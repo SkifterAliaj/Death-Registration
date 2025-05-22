@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eKosova Pensioner Face Verification</title>
+  <style>
+    :root {
+      --primary: #fff9e6;
+      --accent: #ffd700;
+      --text: #2c3e50;
+      --success: #2ecc71;
+      --border-radius: 18px;
+    }
+    body {
+      background: var(--primary);
+      color: var(--text);
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-container {
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 2.5rem 3rem 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 5vh;
+    }
+    .logo-img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: #f7f7f7;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .ekosova-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      color: #1a237e;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #7f8c8d;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 2rem;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .section:last-child {
+      margin-bottom: 0;
+    }
+    .face-demo {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .face-demo img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+      background: #eee;
+    }
+    .verify-btn {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 24px;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    .verify-btn:hover {
+      background: #ffe066;
+    }
+    .success {
+      color: var(--success);
+      font-weight: 600;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+    @media (max-width: 600px) {
+      .logo-container {
+        padding: 1.5rem 1rem;
+      }
+      .logo-img {
+        width: 80px;
+        height: 80px;
+      }
+      .ekosova-title {
+        font-size: 1.4rem;
+      }
+    }
+    @media (max-width: 700px) {
+      main { padding: 1rem; }
+      .face-demo { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img class="logo-img" src="image.png" alt="eKosova Logo" />
+    <div class="ekosova-title">eKosova Pensioner Face Verification</div>
+    <div class="subtitle">
+      Welcome to the official eKosova service for pensioner face verification.
+    </div>
+  </div>
+  <main>
+    <div class="section">
+      <h2>How It Works</h2>
+      <ul>
+        <li>Verify your identity from home using your device's camera.</li>
+        <li>Your address is checked automatically to prevent fraud.</li>
+        <li>All data is secure and private.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>Face Verification</h2>
+      <p>
+        Click the button below to verify your face with eKosova.<br>
+        (You will be asked to allow camera access.)
+      </p>
+      <button class="verify-btn" onclick="verifyFace()">Start Face Verification</button>
+      <div id="verify-result"></div>
+    </div>
+    <div class="section">
+      <h2>Why Address Verification?</h2>
+      <p>
+        By linking your face verification to your registered address, we ensure that only eligible pensioners receive payments. This helps prevent fraud and makes the process fair for everyone.
+      </p>
+    </div>
+    <div class="section">
+      <h2>Questions?</h2>
+      <p>
+        For help, call our support line at <b>0800 123 456</b> or visit your local municipal office.
+      </p>
+    </div>
+  </main>
+  <script src="https://cdn.faceio.net/fio.js"></script>
+  <script>
+    // Replace with your FaceIO public API key from https://console.faceio.net/
+    const faceio = new faceIO("YOUR_PUBLIC_API_KEY");
+
+    function verifyFace() {
+      faceio.authenticate({
+        "locale": "auto"
+      }).then(userData => {
+        document.getElementById('verify-result').innerHTML =
+          '<span class="success">✅ Face verified! Welcome, ' + (userData.payload && userData.payload.name ? userData.payload.name : 'user') + '.</span>';
+      }).catch(errCode => {
+        document.getElementById('verify-result').innerHTML =
+          '<span style="color:red;">❌ Face verification failed. Please try again.</span>';
+      });
+    }
+  </script>
+</body>
+</html>
+    
